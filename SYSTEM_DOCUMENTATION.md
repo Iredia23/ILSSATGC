@@ -1760,7 +1760,7 @@ In the Vercel dashboard, go to your project → "Settings" → "Environment Vari
 **Step 6: Seed the admin account**
 ```bash
 # From your local machine, using your production MongoDB URI:
-DB_URL="<your-atlas-connection-string>" node backend/seed/admin.js
+DB_URL="<your-atlas-connection-string>" SEED_ADMIN_PASSWORD="<a strong password>" node backend/seed/admin.js
 ```
 
 Or run the seed locally and point to the same MongoDB Atlas cluster.
@@ -1789,13 +1789,15 @@ npm install
 ```
 
 **Step 3: Configure environment**
-Create `.env.local` at the project root with your environment variables. You can use `backend/.env.example` as a reference:
+Create `.env.local` at the project root with your environment variables. You can use `.env.example` as a reference:
 ```bash
-# See backend/.env.example for the full list of variables
+# See .env.example for the full list of variables
 # Create .env.local at the project root:
 cat > .env.local << EOF
 DB_URL=mongodb+srv://<user>:<password>@cluster.mongodb.net/futminna
 JWT_SECRET=<your-secure-random-string>
+SEED_ADMIN_PASSWORD=<password-for-the-demo-admin>
+SEED_USER_PASSWORD=<password-for-the-other-demo-accounts>
 JWT_EXPIRE=12h
 JWT_REFRESH_EXPIRE=30d
 BCRYPT_SALT_ROUNDS=10
@@ -1805,7 +1807,7 @@ VITE_API_URL=http://localhost:5000/api
 EOF
 ```
 
-Then fill in your MongoDB connection string and a strong JWT secret.
+Then fill in your MongoDB connection string, a strong JWT secret and the demo account passwords.
 
 > **Getting a Google Gemini API key** (optional, for AI features):
 > 1. Go to [ai.google.dev](https://ai.google.dev)
@@ -1817,7 +1819,7 @@ Then fill in your MongoDB connection string and a strong JWT secret.
 node backend/seed/admin.js
 ```
 
-This creates the initial admin user so you can log in.
+This creates the initial admin user (`admin@futminna.edu.ng`) with the password you set as `SEED_ADMIN_PASSWORD`.
 
 **Step 5: Start the backend**
 ```bash

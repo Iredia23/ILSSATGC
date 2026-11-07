@@ -22,20 +22,19 @@ A web application for **Federal University of Technology, Minna (FUT Minna)** th
 npm install
 
 # 2. Create your settings file, then fill in your own MongoDB URL,
-#    JWT secret and Gemini API key (never commit .env.local)
+#    JWT secret, Gemini API key and demo passwords (never commit .env.local)
 cp .env.example .env.local
 
 # 3. Start everything — backend API + frontend
 npm run dev:both
 ```
 
-Then open **http://localhost:5173** and log in.
-
+Then open **http://localhost:5173** and log in as `admin@futminna.edu.ng` with the password you set as `SEED_ADMIN_PASSWORD`.
 
 ### What happens on the first run
 
 1. The app connects to the MongoDB Atlas database configured in `.env.local` (`DB_URL`).
-2. If the database is **empty**, demo users and demo data are seeded automatically — 8 schools, all departments, **55 courses**, **10 venues**, **9 time slots**, lecturer assignments, and an auto-generated 1st-semester timetable — so dashboards show real numbers. (Existing databases are never touched.)
+2. If the database is **empty**, demo users and demo data are seeded automatically — 8 schools, all departments, **55 courses**, **10 venues**, **9 time slots**, lecturer assignments, and an auto-generated 1st-semester timetable — so dashboards show real numbers. (Existing databases are never touched.) The demo admin gets the password in `SEED_ADMIN_PASSWORD`, and every other demo account gets the one in `SEED_USER_PASSWORD`.
 
 ### Offline mode (no internet, embedded database)
 
