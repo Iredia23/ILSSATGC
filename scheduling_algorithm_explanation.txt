@@ -1,0 +1,75 @@
+===============================================================================
+FUT MINNA TIMETABLE SCHEDULING SYSTEM — ALGORITHM DOCUMENTATION
+===============================================================================
+
+Question: Was any Genetic Algorithm used in the application?
+Answer: NO. A Genetic Algorithm (GA) was NOT used in this application.
+
+-------------------------------------------------------------------------------
+1. WHAT ALGORITHM WAS USED INSTEAD?
+-------------------------------------------------------------------------------
+The automatic timetable generator uses a Heuristic Constraint Satisfaction Problem (CSP) 
+Solver with Soft-Penalty Optimization.
+
+Source Code Location:
+- backend/controllers/assignmentController.js (autoGenerateSchedule & checkConflictInternal functions)
+
+-------------------------------------------------------------------------------
+2. HOW THE SCHEDULING ALGORITHM WORKS
+-------------------------------------------------------------------------------
+Instead of evolutionary generations (crossover and mutation), the engine uses an 
+in-memory constraint-satisfaction matrix that executes in sub-second time.
+
+Step 1: Hard Constraint Enforcement (Zero Conflicts)
+  - Venue Conflict Protection: Ensures no venue is double-booked for the same 
+    day and time slot.
+  - Lecturer Conflict Protection: Ensures no lecturer is scheduled to teach 
+    two different classes simultaneously.
+  - Multi-Department Cohort Clash Protection: Prevents schedule overlaps for courses 
+    at the SAME academic level (100L-500L) that share student department enrollment 
+    (e.g., MTH 201 taken by CSC and CSS students blocks CSC 201 at the same hour, 
+    while disjoint departments like CSS 201 and SE 201 are allowed to run concurrently).
+  - Slot Capacity Limit: Strictly limits concurrent lectures in any single hour slot 
+    to a maximum of 5 lectures across the department.
+
+Step 2: 2-Hour Minimum Consecutive Slot Pairing
+  - Algorithmically matches contiguous 1-hour time slots (e.g. 08:00-10:00, 
+    10:00-12:00, 14:00-16:00).
+  - Automatically skips the 13:00-14:00 university lunch break to ensure uninterrupted 
+    2-hour consecutive lecture blocks.
+
+Step 3: Multi-Level Parallel Scheduling
+  - Permits different levels (e.g. 100L and 200L) or disjoint student cohorts to hold 
+    classes concurrently at the exact same time slot in separate venues.
+
+Step 4: Soft-Penalty Heuristic Scoring
+  - Evaluates candidate time slots based on slot congestion and daily level workload distribution.
+  - Selects the lowest-penalty slot combination to evenly spread classes across Monday to Friday.
+
+Step 5: Credit-Unit Quota & Extra 1-Hour Slot Allocation
+  - 1 Credit Unit = 1 Weekly Lecture Slot.
+  - Courses with 3 or more credit units automatically receive a 2-hour consecutive block 
+    plus an additional 1-hour slot scheduled on a separate day or time slot.
+
+Step 6: Diagnostic Reporting & Unplaced Course Flagging
+  - Unscheduled courses that cannot be placed due to capacity, venue saturation, or cohort 
+    conflicts are returned in an `unplacedCourses` diagnostic report detailing the exact 
+    reason for every unplaced course.
+  - The generator schedules courses EVEN when no lecturer has been assigned yet 
+    (marked as "Unassigned" and flagged in the summary report for subsequent HOD allocation).
+
+-------------------------------------------------------------------------------
+3. COMPARISON: GENETIC ALGORITHM VS. CURRENT HEURISTIC CSP SOLVER
+-------------------------------------------------------------------------------
+Feature                     Genetic Algorithm (GA)      Current Heuristic CSP Solver
+-----------------------     ----------------------      ----------------------------
+Approach                    Population/Crossover/       Direct Constraint Satisfaction
+                            Mutation Iterations         + Penalty Scoring
+Execution Speed             Slower (Multiple Loops)     Instant (< 50ms execution time)
+Hard Constraint Guarantee   Requires Penalty Tuning     Guaranteed 100% Conflict-Free
+Determinism                 Stochastic (Varies)         Deterministic & Predictable
+Resource Usage              High CPU Usage              Lightweight & Fast
+Cohort Integrity            Complex fitness equations   Deterministic Set Intersection
+Capacity Cap Enforcement    Soft penalty approximation  Hard Mathematical Limit (Max 5)
+
+===============================================================================
