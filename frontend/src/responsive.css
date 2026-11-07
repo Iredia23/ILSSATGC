@@ -1,0 +1,203 @@
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE STYLES — Mobile & Tablet Overrides
+   Uses !important to override inline styles across components
+   ═══════════════════════════════════════════════════════════ */
+
+/* ─── Tablet (768px–1024px) ─── */
+@media (max-width: 1024px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .actions-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .role-cards {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .config-cards {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .report-cards-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .breakdown-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+  .venue-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .cal-wrapper {
+    overflow-x: auto !important;
+  }
+}
+
+/* ─── Mobile (≤ 768px) ─── */
+@media (max-width: 768px) {
+  /* ── Layout ── */
+  .app-layout {
+    flex-direction: column !important;
+  }
+
+  .app-sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    width: 260px !important;
+    z-index: 100 !important;
+    transform: translateX(-100%) !important;
+    transition: transform 0.3s ease !important;
+  }
+  .app-sidebar.open {
+    transform: translateX(0) !important;
+  }
+
+  .sidebar-overlay {
+    display: none !important;
+  }
+  .sidebar-overlay.open {
+    display: block !important;
+  }
+
+  .app-main {
+    margin-left: 0 !important;
+    width: 100% !important;
+    padding-top: 56px !important; /* space for hamburger */
+  }
+
+  .sidebar-toggle {
+    display: flex !important;
+  }
+
+  /* ── Page padding ── */
+  .page {
+    padding: 16px !important;
+  }
+
+  /* ── Headers ── */
+  .page-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+  }
+
+  /* ── Stat grids → single column ── */
+  .stats-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+  .actions-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+  }
+  .breakdown-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* ── Form rows → stack ── */
+  .form-row {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ── Role cards → single column ── */
+  .role-cards {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ── Venue cards → single column ── */
+  .venue-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ── Config cards → single column ── */
+  .config-cards {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ── Report cards → 2 columns ── */
+  .report-cards-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* ── Tables → horizontal scroll ── */
+  .table-container {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  /* ── Calendar wrappers → scroll ── */
+  .cal-wrapper {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  /* ── Login card ── */
+  .login-card {
+    padding: 24px !important;
+    margin: 12px !important;
+  }
+
+  /* ── AI Assistant ── */
+  .ai-assistant-panel {
+    width: calc(100% - 32px) !important;
+    right: 16px !important;
+    bottom: 88px !important;
+  }
+
+  /* ── Toolbar (filters, search) ── */
+  .toolbar {
+    flex-direction: column !important;
+    gap: 8px !important;
+  }
+  .toolbar input,
+  .toolbar select {
+    width: 100% !important;
+    min-width: unset !important;
+  }
+
+  /* ── Page headers with buttons ── */
+  .page-header > div:last-child {
+    width: 100% !important;
+  }
+  .page-header button,
+  .page-header select {
+    flex: 1 !important;
+  }
+}
+
+/* ─── Very Small (≤ 480px) ─── */
+@media (max-width: 480px) {
+  .actions-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .report-cards-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .breakdown-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .stats-grid .stat-card {
+    padding: 16px !important;
+  }
+
+  .login-card {
+    padding: 20px !important;
+  }
+
+  .page {
+    padding: 12px !important;
+  }
+}
+
+/* ─── Landscape mobile ─── */
+@media (max-height: 480px) and (orientation: landscape) {
+  .app-sidebar {
+    width: 220px !important;
+  }
+  .login-card {
+    padding: 16px !important;
+  }
+}
